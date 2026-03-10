@@ -1,0 +1,153 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// Avenir Next from a provided webfont source.
+@font-face {
+  font-family: "Avenir Next LT W02 Regular";
+  src: url("https://db.onlinewebfonts.com/t/be9a43357e0fe07642191e4b32995385.eot");
+  src:
+    url("https://db.onlinewebfonts.com/t/be9a43357e0fe07642191e4b32995385.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/be9a43357e0fe07642191e4b32995385.woff2") format("woff2"),
+    url("https://db.onlinewebfonts.com/t/be9a43357e0fe07642191e4b32995385.woff") format("woff"),
+    url("https://db.onlinewebfonts.com/t/be9a43357e0fe07642191e4b32995385.ttf") format("truetype"),
+    url("https://db.onlinewebfonts.com/t/be9a43357e0fe07642191e4b32995385.svg#Avenir Next LT W02 Regular")
+      format("svg");
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-base;
+  color: $color-text-primary;
+  background-color: $color-background;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+button {
+  @include reset-button;
+}
+
+ul,
+ol {
+  @include reset-list;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+textarea {
+  &::placeholder {
+    color: $color-text-light;
+    opacity: 0.6;
+  }
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: $max-content-width;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+
+  @include respond-to(lg) {
+    padding: 0 $spacing-xl;
+  }
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+body {
+  @include custom-scrollbar;
+}

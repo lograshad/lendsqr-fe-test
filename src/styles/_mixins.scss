@@ -1,0 +1,197 @@
+@use "sass:color";
+@use "variables" as *;
+
+// Responsive Breakpoint Mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == xs {
+    @media (min-width: $breakpoint-xs) {
+      @content;
+    }
+  } @else if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == 2xl {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+}
+
+// Max-width breakpoint
+@mixin respond-to-max($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: ($breakpoint-xs - 1)) {
+      @content;
+    }
+  } @else if $breakpoint == sm {
+    @media (max-width: ($breakpoint-sm - 1)) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (max-width: ($breakpoint-md - 1)) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (max-width: ($breakpoint-lg - 1)) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (max-width: ($breakpoint-xl - 1)) {
+      @content;
+    }
+  } @else if $breakpoint == 2xl {
+    @media (max-width: ($breakpoint-2xl - 1)) {
+      @content;
+    }
+  }
+}
+
+// Typography Mixins
+@mixin font-heading($size: $font-size-2xl, $weight: $font-weight-bold) {
+  font-family: $font-primary;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height-tight;
+}
+
+@mixin font-body($size: $font-size-base, $weight: $font-weight-regular) {
+  font-family: $font-primary;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height-base;
+}
+
+@mixin font-label($size: $font-size-sm, $weight: $font-weight-medium) {
+  font-family: $font-primary;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height-base;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Flexbox Utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Visual Effects
+@mixin card-shadow {
+  box-shadow: $shadow-md;
+  border-radius: $radius-md;
+  background: $color-background;
+}
+
+@mixin hover-lift {
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// Truncation
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Focus States
+@mixin focus-ring($color: $color-primary) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+// Visually Hidden (for accessibility)
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Reset Button Styles
+@mixin reset-button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+// Reset List Styles
+@mixin reset-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// Scrollbar Styling
+@mixin custom-scrollbar(
+  $width: 8px,
+  $track-color: $color-background-light,
+  $thumb-color: $color-text-light
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $radius-full;
+
+    &:hover {
+      background: color.adjust($thumb-color, $lightness: -10%);
+    }
+  }
+}
