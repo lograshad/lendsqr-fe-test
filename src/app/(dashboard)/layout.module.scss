@@ -1,0 +1,17 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.dashboardLayout {
+  min-height: 100vh;
+  background: $color-background-light;
+}
+
+.content {
+  padding-top: $topbar-height;
+  min-height: 100vh;
+  transition: margin-left $transition-base;
+
+  @include respond-to(lg) {
+    margin-left: $sidebar-width;
+  }
+}

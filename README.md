@@ -73,25 +73,67 @@ npm start
 ```
 lendsqr-fe-test/
 ├── src/
-│   ├── app/              # Next.js app directory (pages & layouts)
-│   ├── components/       # Reusable React components (TBD)
-│   ├── styles/           # Global SCSS and design tokens
-│   │   ├── globals.scss  # Global styles and CSS reset
-│   │   ├── _variables.scss  # Design tokens (colors, spacing, typography)
-│   │   └── _mixins.scss     # SCSS mixins and utilities
-│   ├── lib/              # Utility functions and helpers (TBD)
-│   └── types/            # TypeScript type definitions (TBD)
-├── public/               # Static assets
+│   ├── app/
+│   │   ├── (auth)/           # Auth route group (login)
+│   │   ├── (dashboard)/      # Dashboard route group (header + sidebar layout)
+│   │   │   ├── dev/styles/   # Design system explorer page
+│   │   │   ├── layout.tsx    # Dashboard shell layout
+│   │   │   └── page.tsx      # Dashboard home
+│   │   ├── layout.tsx        # Root layout (fonts + globals)
+│   │   └── page.tsx          # Root redirect
+│   ├── components/
+│   │   ├── icons/            # SVG icon components
+│   │   ├── layout/
+│   │   │   ├── Header/       # Top navigation bar
+│   │   │   └── Sidebar/      # Side navigation with grouped menu items
+│   │   └── ui/
+│   │       ├── Avatar/       # User avatar with image/fallback
+│   │       ├── Button/       # Button with variants, sizes, loading
+│   │       ├── Card/         # Content container with shadow
+│   │       ├── Input/        # Form input with label, error, helper
+│   │       └── Table/        # Data table with typed columns
+│   ├── styles/
+│   │   ├── globals.scss      # Global styles and CSS reset
+│   │   ├── _variables.scss   # Design tokens (colors, spacing, typography)
+│   │   └── _mixins.scss      # SCSS mixins and utilities
+│   ├── lib/                  # Utility functions and helpers (TBD)
+│   └── types/                # TypeScript type definitions (TBD)
+├── public/                   # Static assets
 └── ...config files
 ```
 
-## Features (Planned)
+## Components
 
+### Layout
+
+| Component | Description                                                                                                 |
+| --------- | ----------------------------------------------------------------------------------------------------------- |
+| `Header`  | Fixed top bar with logo, search, notifications, and user menu. Hamburger toggle on mobile.                  |
+| `Sidebar` | Navigation sidebar with grouped menu items (Customers, Businesses, Settings). Responsive overlay on mobile. |
+
+### UI
+
+| Component | Props                                                 | Description                                                                             |
+| --------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `Button`  | `variant`, `size`, `fullWidth`, `loading`, `disabled` | Supports primary, secondary, outline, ghost, danger variants and sm/md/lg sizes.        |
+| `Input`   | `label`, `error`, `helperText` + native input attrs   | Form input with accessible labels, error states, and helper text.                       |
+| `Card`    | `padding` (`none`, `sm`, `md`, `lg`)                  | Content container with border, shadow, and configurable padding.                        |
+| `Avatar`  | `src`, `alt`, `size`, `fallback`                      | Displays user image or falls back to initials. Sizes: sm (32px), md (40px), lg (100px). |
+| `Table`   | `columns`, `data`, `keyExtractor`, `onFilter`         | Generic typed table with column filter buttons and empty state.                         |
+
+### Design System Explorer
+
+Visit `/dev/styles` to see all color tokens, typography scale, spacing, and live component examples.
+
+## Features
+
+- [x] Responsive dashboard layout (header + sidebar + content)
+- [x] Reusable component library (Button, Input, Card, Avatar, Table)
+- [x] Design system explorer page
 - [ ] Login page with form validation
 - [ ] Dashboard with user statistics
 - [ ] Users list with pagination, search, and filtering (500 records)
 - [ ] User details page with local persistence (IndexedDB/localStorage)
-- [ ] Mobile-responsive design
 - [ ] Unit and E2E tests
 
 ## Design

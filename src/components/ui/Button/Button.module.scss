@@ -1,0 +1,124 @@
+@use "@/styles/variables" as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  border: 2px solid transparent;
+  border-radius: $radius-md;
+  font-family: $font-primary;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all $transition-fast;
+  position: relative;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Sizes
+.sm {
+  height: 30px;
+  padding: 0 $spacing-md;
+  font-size: $font-size-xs;
+}
+
+.md {
+  height: 40px;
+  padding: 0 $spacing-lg;
+  font-size: $font-size-sm;
+}
+
+.lg {
+  height: 48px;
+  padding: 0 $spacing-xl;
+  font-size: $font-size-base;
+}
+
+// Variants
+.primary {
+  background: $color-primary;
+  color: $color-background;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+}
+
+.secondary {
+  background: $color-primary-dark;
+  color: $color-background;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+}
+
+.outline {
+  background: transparent;
+  border-color: $color-primary;
+  color: $color-primary;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-primary, 0.06);
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: $color-text-secondary;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-primary-dark, 0.04);
+    color: $color-text-primary;
+  }
+}
+
+.danger {
+  background: $color-error;
+  color: $color-background;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+// Loading
+.loading {
+  position: relative;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: $radius-full;
+  animation: spin 0.6s linear infinite;
+  position: absolute;
+}
+
+.hiddenText {
+  visibility: hidden;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

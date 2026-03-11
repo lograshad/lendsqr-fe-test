@@ -1,0 +1,140 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: $z-index-modal-backdrop;
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: $topbar-height;
+  left: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  background: $color-background;
+  border-right: 1px solid $color-border-light;
+  overflow-y: auto;
+  z-index: $z-index-modal;
+  transform: translateX(-100%);
+  transition: transform $transition-base;
+
+  @include custom-scrollbar(6px);
+
+  @include respond-to(lg) {
+    transform: translateX(0);
+    z-index: 1;
+  }
+
+  &.open {
+    transform: translateX(0);
+  }
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  color: $color-text-secondary;
+
+  @include respond-to(lg) {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-lg 0 $spacing-xl;
+}
+
+.orgSwitcher {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  margin-bottom: $spacing-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  color: $color-text-primary;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background: rgba($color-primary-dark, 0.04);
+  }
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  color: $color-text-secondary;
+  text-decoration: none;
+  transition: all $transition-fast;
+  position: relative;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover {
+    background: rgba($color-primary, 0.06);
+    color: $color-text-primary;
+  }
+
+  &.active {
+    background: rgba($color-primary, 0.06);
+    color: $color-text-primary;
+    border-left: 3px solid $color-primary;
+
+    &::before {
+      content: "";
+    }
+  }
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
+}
+
+.group {
+  margin-top: $spacing-md;
+}
+
+.groupTitle {
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.divider {
+  height: 1px;
+  background: $color-border-light;
+  margin: $spacing-md 0;
+}
+
+.version {
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  opacity: 0.8;
+}

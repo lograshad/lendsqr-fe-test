@@ -1,0 +1,15 @@
+@use "@/styles/variables" as *;
+
+.page {
+  padding: $spacing-3xl;
+  text-align: center;
+}
+
+.title {
+  color: $color-text-primary;
+}
+
+.subtitle {
+  margin-top: $spacing-md;
+  color: $color-text-secondary;
+}

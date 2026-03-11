@@ -1,0 +1,20 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.page {
+  padding: $spacing-2xl $spacing-xl $spacing-lg;
+
+  @include respond-to(lg) {
+    padding: $spacing-2xl $spacing-3xl $spacing-lg;
+  }
+}
+
+.title {
+  @include font-heading($font-size-2xl);
+  color: $color-text-primary;
+}
+
+.subtitle {
+  margin-top: $spacing-md;
+  color: $color-text-secondary;
+}

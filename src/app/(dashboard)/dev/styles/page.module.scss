@@ -1,0 +1,145 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.page {
+  padding: $spacing-2xl $spacing-xl $spacing-2xl;
+
+  @include respond-to(lg) {
+    padding: $spacing-2xl $spacing-3xl;
+  }
+}
+
+.pageTitle {
+  @include font-heading($font-size-3xl);
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+.pageDescription {
+  color: $color-text-secondary;
+  margin-bottom: $spacing-2xl;
+}
+
+.section {
+  margin-bottom: $spacing-2xl;
+}
+
+.sectionTitle {
+  @include font-heading($font-size-2xl);
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid $color-border-light;
+}
+
+.subsectionTitle {
+  @include font-heading($font-size-lg, $font-weight-semibold);
+  color: $color-text-primary;
+  margin: $spacing-lg 0 $spacing-md;
+}
+
+// Colors
+.colorGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: $spacing-md;
+}
+
+.colorCard {
+  border: 1px solid $color-border-light;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.colorSwatch {
+  height: 80px;
+  width: 100%;
+}
+
+.colorInfo {
+  padding: $spacing-sm $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.colorName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.colorValue {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  font-family: monospace;
+}
+
+// Typography
+.typeScale {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.typeRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: baseline;
+    gap: $spacing-lg;
+  }
+}
+
+.typeMeta {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  font-family: monospace;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+// Spacing
+.spacingScale {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.spacingRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+}
+
+.spacingMeta {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  font-family: monospace;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.spacingBar {
+  height: 20px;
+  background: $color-primary;
+  border-radius: $radius-sm;
+  min-width: 4px;
+}
+
+// Components
+.componentRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: $spacing-lg;
+}

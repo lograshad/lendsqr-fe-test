@@ -40,5 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# documentation
 /front-end-test.md
+# my implementation plan
 /front-end-assessment-plan.md
