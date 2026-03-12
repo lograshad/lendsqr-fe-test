@@ -21,9 +21,17 @@ interface TableProps<T> {
   pageSize?: number;
   onFilter?: (columnId: string) => void;
   className?: string;
+  hidePagination?: boolean;
 }
 
-export function Table<T>({ columns, data, pageSize = 10, onFilter, className }: TableProps<T>) {
+export function Table<T>({
+  columns,
+  data,
+  pageSize = 10,
+  onFilter,
+  className,
+  hidePagination,
+}: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -95,7 +103,7 @@ export function Table<T>({ columns, data, pageSize = 10, onFilter, className }: 
         </tbody>
       </table>
 
-      {data.length > 0 && (
+      {data.length > 0 && !hidePagination && (
         <div className={styles.pagination}>
           <span className={styles.pageInfo}>
             Showing{" "}
@@ -150,3 +158,5 @@ export function Table<T>({ columns, data, pageSize = 10, onFilter, className }: 
     </div>
   );
 }
+
+//TODO: if server pagination, connect to tanstack?

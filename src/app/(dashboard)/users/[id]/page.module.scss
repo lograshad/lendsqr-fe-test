@@ -1,0 +1,137 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.page {
+  padding: $spacing-2xl $spacing-xl $spacing-lg;
+
+  @include respond-to(lg) {
+    padding: $spacing-2xl $spacing-3xl $spacing-lg;
+  }
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  text-decoration: none;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.title {
+  @include font-heading($font-size-2xl);
+  color: $color-text-primary;
+}
+
+.subtitle {
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-xl;
+  color: $color-text-secondary;
+  font-size: $font-size-base;
+}
+
+.loading {
+  padding: $spacing-2xl;
+  color: $color-text-secondary;
+}
+
+.successBanner {
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-lg;
+  background: rgba($color-success, 0.12);
+  border: 1px solid $color-success;
+  border-radius: $radius-sm;
+  color: $color-success;
+  font-size: $font-size-sm;
+}
+
+.errorBanner {
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-lg;
+  background: rgba($color-error, 0.1);
+  border: 1px solid $color-error;
+  border-radius: $radius-sm;
+  color: $color-error;
+  font-size: $font-size-sm;
+}
+
+.formCard {
+  max-width: 640px;
+  margin-bottom: $spacing-xl;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.fieldGrid {
+  display: grid;
+  gap: $spacing-lg;
+  grid-template-columns: 1fr;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.select {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-base;
+  font-family: $font-primary;
+  color: $color-text-primary;
+  background: $color-background;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-sm;
+  appearance: auto;
+  cursor: pointer;
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.hint {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}

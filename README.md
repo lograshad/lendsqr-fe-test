@@ -59,46 +59,65 @@ npm start
 
 ## Available Scripts
 
-| Script                 | Description                                  |
-| ---------------------- | -------------------------------------------- |
-| `npm run dev`          | Start the development server with hot reload |
-| `npm run build`        | Build the application for production         |
-| `npm start`            | Run the production server                    |
-| `npm run lint`         | Run ESLint to check for code quality issues  |
-| `npm run format`       | Format all files with Prettier               |
-| `npm run format:check` | Check if files are formatted correctly       |
+| Script                   | Description                                    |
+| ------------------------ | ---------------------------------------------- |
+| `npm run dev`            | Start the development server with hot reload   |
+| `npm run build`          | Build the application for production           |
+| `npm start`              | Run the production server                      |
+| `npm run lint`           | Run ESLint to check for code quality issues    |
+| `npm run format`         | Format all files with Prettier                 |
+| `npm run format:check`   | Check if files are formatted correctly         |
+| `npm run generate:users` | Generate 500 mock users into `data/users.json` |
 
 ## Project Structure
 
 ```
 lendsqr-fe-test/
+├── data/
+│   └── users.json            # Generated 500 mock users (npm run generate:users)
+├── scripts/
+│   └── generate-users.mjs    # Faker script to generate users.json
 ├── src/
 │   ├── app/
-│   │   ├── (auth)/           # Auth route group (login)
+│   │   ├── (auth)/
+│   │   │   ├── login/        # Login page
+│   │   │   └── forgot-password/  # Forgot password placeholder
 │   │   ├── (dashboard)/      # Dashboard route group (header + sidebar layout)
 │   │   │   ├── dev/styles/   # Design system explorer page
-│   │   │   ├── layout.tsx    # Dashboard shell layout
+│   │   │   ├── users/        # Users list page
+│   │   │   │   └── [id]/     # User details page (editable, persistence)
+│   │   │   ├── layout.tsx    # Dashboard shell layout (auth guard)
 │   │   │   └── page.tsx      # Dashboard home
-│   │   ├── layout.tsx        # Root layout (fonts + globals)
-│   │   └── page.tsx          # Root redirect
+│   │   ├── api/
+│   │   │   └── users/        # GET /api/users (list), GET /api/users/[id]
+│   │   ├── layout.tsx        # Root layout (QueryProvider, AuthProvider)
+│   │   └── page.tsx          # Root redirect to /users
 │   ├── components/
 │   │   ├── icons/            # SVG icon components
 │   │   ├── layout/
 │   │   │   ├── Header/       # Top navigation bar
 │   │   │   └── Sidebar/      # Side navigation with grouped menu items
+│   │   ├── providers/        # QueryClientProvider wrapper
 │   │   └── ui/
 │   │       ├── Avatar/       # User avatar with image/fallback
 │   │       ├── Button/       # Button with variants, sizes, loading
 │   │       ├── Card/         # Content container with shadow
 │   │       ├── Input/        # Form input with label, error, helper
-│   │       └── Table/        # Data table with typed columns
+│   │       └── Table/        # Data table (TanStack Table), hidePagination option
+│   ├── context/
+│   │   └── AuthContext.tsx   # AuthProvider, useAuth (login/logout/token)
+│   ├── lib/
+│   │   ├── api/users.ts      # getUsers, getUserById (calls /api/users)
+│   │   ├── auth.ts           # mockLogin, logout, getToken (localStorage)
+│   │   ├── persistence/userOverrides.ts  # IndexedDB (Dexie) + localStorage fallback
+│   │   └── validations/      # Zod schemas (auth, user details)
 │   ├── styles/
 │   │   ├── globals.scss      # Global styles and CSS reset
 │   │   ├── _variables.scss   # Design tokens (colors, spacing, typography)
 │   │   └── _mixins.scss      # SCSS mixins and utilities
-│   ├── lib/                  # Utility functions and helpers (TBD)
-│   └── types/                # TypeScript type definitions (TBD)
-├── public/                   # Static assets
+│   └── types/
+│       └── user.ts           # AppUser, UserOverrides
+├── public/                   # Static assets (e.g. login-illustration.svg)
 └── ...config files
 ```
 
@@ -113,13 +132,13 @@ lendsqr-fe-test/
 
 ### UI
 
-| Component | Props                                                 | Description                                                                             |
-| --------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `Button`  | `variant`, `size`, `fullWidth`, `loading`, `disabled` | Supports primary, secondary, outline, ghost, danger variants and sm/md/lg sizes.        |
-| `Input`   | `label`, `error`, `helperText` + native input attrs   | Form input with accessible labels, error states, and helper text.                       |
-| `Card`    | `padding` (`none`, `sm`, `md`, `lg`)                  | Content container with border, shadow, and configurable padding.                        |
-| `Avatar`  | `src`, `alt`, `size`, `fallback`                      | Displays user image or falls back to initials. Sizes: sm (32px), md (40px), lg (100px). |
-| `Table`   | `columns`, `data`, `keyExtractor`, `onFilter`         | Generic typed table with column filter buttons and empty state.                         |
+| Component | Props                                                       | Description                                                                             |
+| --------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `Button`  | `variant`, `size`, `fullWidth`, `loading`, `disabled`       | Supports primary, secondary, outline, ghost, danger variants and sm/md/lg sizes.        |
+| `Input`   | `label`, `error`, `helperText` + native input attrs         | Form input with accessible labels, error states, and helper text.                       |
+| `Card`    | `padding` (`none`, `sm`, `md`, `lg`)                        | Content container with border, shadow, and configurable padding.                        |
+| `Avatar`  | `src`, `alt`, `size`, `fallback`                            | Displays user image or falls back to initials. Sizes: sm (32px), md (40px), lg (100px). |
+| `Table`   | `columns`, `data`, `pageSize`, `onFilter`, `hidePagination` | Generic typed table (TanStack Table) with sorting, filter buttons, optional pagination. |
 
 ### Design System Explorer
 
@@ -130,10 +149,10 @@ Visit `/dev/styles` to see all color tokens, typography scale, spacing, and live
 - [x] Responsive dashboard layout (header + sidebar + content)
 - [x] Reusable component library (Button, Input, Card, Avatar, Table)
 - [x] Design system explorer page
-- [ ] Login page with form validation
+- [x] Login page with form validation (React Hook Form + Zod)
 - [ ] Dashboard with user statistics
-- [ ] Users list with pagination, search, and filtering (500 records)
-- [ ] User details page with local persistence (IndexedDB/localStorage)
+- [x] Users list with pagination, search, and sorting (500 records)
+- [x] User details page with local persistence (IndexedDB/localStorage)
 - [ ] Unit and E2E tests
 
 ## Design
@@ -146,17 +165,25 @@ The application follows the design specifications from the [Figma design file](h
 
 ## Mock API
 
-**Endpoint**: TBD (will host 500 user records)
+The app includes a built-in mock API served by Next.js. When you run `npm run dev` or `npm start`, the following endpoint is available:
 
-## Testing
+**Base**: Same origin as the app (e.g. `http://localhost:3000` when running locally).
 
-**Test suite**: TBD (Jest + React Testing Library + Playwright)
-
-Run tests:
+**List users** (paginated, searchable, sortable):
 
 ```bash
-npm test
+curl "http://localhost:3000/api/users?page=1&limit=20"
 ```
+
+Optional query params: `search` (filter by name, email, phone, organization), `sort` (e.g. `createdAt`, `fullName`, `email`), `order` (`asc` or `desc`).
+
+**Get user by ID**:
+
+```bash
+curl "http://localhost:3000/api/users/1"
+```
+
+The 500 user records are generated by `npm run generate:users` and stored in `data/users.json` (committed to the repo). To regenerate the file, run `npm run generate:users`.
 
 ## Deployment
 

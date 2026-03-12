@@ -1,0 +1,219 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.page {
+  padding: $spacing-2xl $spacing-xl $spacing-lg;
+
+  @include respond-to(lg) {
+    padding: $spacing-2xl $spacing-3xl $spacing-lg;
+  }
+}
+
+.title {
+  @include font-heading($font-size-2xl);
+  color: $color-text-primary;
+}
+
+.subtitle {
+  margin-top: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  color: $color-text-secondary;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.searchForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  align-items: flex-end;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+}
+
+.sortRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.sortLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+}
+
+.sortSelect,
+.orderSelect {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+  font-family: $font-primary;
+  color: $color-text-primary;
+  background: $color-background;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-sm;
+  cursor: pointer;
+}
+
+.table {
+  margin-bottom: $spacing-lg;
+}
+
+.stateMessage {
+  padding: $spacing-2xl;
+  text-align: center;
+  color: $color-text-secondary;
+}
+
+.errorState {
+  padding: $spacing-xl;
+  text-align: center;
+  background: rgba($color-error, 0.06);
+  border: 1px solid rgba($color-error, 0.2);
+  border-radius: $radius-md;
+  color: $color-error;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.pageInfo {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+
+  strong {
+    color: $color-text-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.pageBtn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  background: rgba($color-primary-dark, 0.06);
+  transition: all $transition-fast;
+  border: none;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-primary-dark, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.pageNum {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    color: $color-text-primary;
+    background: rgba($color-primary-dark, 0.04);
+  }
+}
+
+.activePageNum {
+  color: $color-text-primary;
+  font-weight: $font-weight-semibold;
+  background: rgba($color-primary-dark, 0.06);
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.statusActive {
+  background: rgba($color-success, 0.12);
+  color: $color-success;
+}
+
+.statusInactive {
+  background: rgba($color-inactive, 0.12);
+  color: $color-inactive;
+}
+
+.statusPending {
+  background: rgba($color-warning, 0.12);
+  color: $color-warning;
+}
+
+.statusBlacklisted {
+  background: rgba($color-error, 0.12);
+  color: $color-error;
+}
+
+.userLink {
+  color: $color-primary;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.actionLink {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
