@@ -1,15 +1,133 @@
 @use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
 
 .page {
-  padding: $spacing-3xl;
-  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  background: $color-background;
+}
+
+.leftPanel {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  padding: $spacing-2xl $spacing-3xl;
+  background: $color-background;
+
+  @include respond-to(lg) {
+    display: flex;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  text-decoration: none;
+  color: $color-primary-dark;
+  margin-bottom: $spacing-2xl;
+}
+
+.logoText {
+  font-family: $font-primary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  letter-spacing: -0.02em;
+}
+
+.illustrationWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.illustration {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+.rightPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl $spacing-lg;
+  background: $color-background;
+
+  @include respond-to(md) {
+    padding: $spacing-2xl $spacing-3xl;
+  }
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 447px;
 }
 
 .title {
-  color: $color-text-primary;
+  font-family: $font-secondary;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary-dark;
+  margin-bottom: $spacing-sm;
+  line-height: $line-height-tight;
 }
 
 .subtitle {
-  margin-top: $spacing-md;
+  font-size: $font-size-xl;
   color: $color-text-secondary;
+  margin-bottom: $spacing-2xl;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.showPasswordBtn {
+  position: absolute;
+  right: $spacing-md;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  letter-spacing: 0.1em;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.forgotPassword {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.rootError {
+  padding: $spacing-sm $spacing-md;
+  background: rgba($color-error, 0.1);
+  border: 1px solid $color-error;
+  border-radius: $radius-sm;
+  color: $color-error;
+  font-size: $font-size-sm;
+  text-align: center;
 }
