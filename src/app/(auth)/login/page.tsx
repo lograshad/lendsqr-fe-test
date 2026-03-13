@@ -32,7 +32,7 @@ export default function LoginPage() {
     if (!isLoading && isAuthenticated) {
       router.replace("/");
     }
-  }, [isAuthenticated, isLoading, router]); //TODO: maybe put this in an async layout file?
+  }, [isAuthenticated, isLoading, router]);
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -81,6 +81,7 @@ export default function LoginPage() {
               placeholder="Email"
               error={errors.email?.message}
               autoComplete="email"
+              data-cy="login-email"
             />
 
             <div className={styles.passwordWrapper}>
@@ -90,11 +91,13 @@ export default function LoginPage() {
                 placeholder="Password"
                 error={errors.password?.message}
                 autoComplete="current-password"
+                data-cy="login-password"
               />
               <button
                 type="button"
                 className={styles.showPasswordBtn}
                 onClick={() => setShowPassword(!showPassword)}
+                aria-pressed={showPassword}
               >
                 {showPassword ? "HIDE" : "SHOW"}
               </button>
@@ -106,7 +109,14 @@ export default function LoginPage() {
               FORGOT PASSWORD?
             </Link>
 
-            <Button type="submit" variant="primary" size="lg" fullWidth loading={isSubmitting}>
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              fullWidth
+              loading={isSubmitting}
+              data-cy="login-submit"
+            >
               LOG IN
             </Button>
           </form>
@@ -115,8 +125,3 @@ export default function LoginPage() {
     </main>
   );
 }
-
-// TODO: 404 PAGE?
-// update svg illustration
-// confirm accuracy of icons again
-// redirect if logged in and user tries to access login page

@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getUserById, updateUserStatus } from "@/lib/api/users";
 import { QUERY_KEYS } from "@/lib/query-keys";
-import type { AppUser } from "@/types/user";
 import { BackArrowIcon, StarFilledIcon, StarEmptyIcon, UserAvatarIcon } from "@/components/icons";
 import { UserDetailsSkeleton } from "./UserDetailsSkeleton";
 import styles from "./page.module.scss";
@@ -48,24 +47,17 @@ function TierStars({ tier = 1 }: { tier?: number }) {
 }
 
 export function UserDetails({ userId }: UserDetailsProps) {
-  const [user, setUser] = useState<AppUser | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<string>(TABS[0]);
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    let cancelled = false;
-    getUserById(userId)
-      .then((data) => {
-        if (!cancelled) setUser(data);
-      })
-      .catch((err) => {
-        if (!cancelled) setLoadError(err instanceof Error ? err.message : "Failed to load user");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [userId]);
+  const {
+    data: user,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.users, "detail", userId],
+    queryFn: ({ signal }) => getUserById(userId, { signal }),
+  });
 
   const handleBlacklist = () => {
     const p = updateUserStatus(userId, "blacklisted");
@@ -75,7 +67,7 @@ export function UserDetails({ userId }: UserDetailsProps) {
       error: "Failed to blacklist user.",
     });
     p.then((updated) => {
-      setUser(updated);
+      queryClient.setQueryData([QUERY_KEYS.users, "detail", userId], updated);
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.users] });
     });
   };
@@ -88,12 +80,12 @@ export function UserDetails({ userId }: UserDetailsProps) {
       error: "Failed to activate user.",
     });
     p.then((updated) => {
-      setUser(updated);
+      queryClient.setQueryData([QUERY_KEYS.users, "detail", userId], updated);
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.users] });
     });
   };
 
-  if (loadError) {
+  if (isError) {
     return (
       <div className={styles.page}>
         <Link href="/users" className={styles.backLink}>
@@ -101,13 +93,13 @@ export function UserDetails({ userId }: UserDetailsProps) {
           Back to Users
         </Link>
         <div className={styles.errorBanner} role="alert">
-          {loadError}
+          {error instanceof Error ? error.message : "Failed to load user"}
         </div>
       </div>
     );
   }
 
-  if (!user) {
+  if (isLoading || !user) {
     return (
       <div className={styles.page}>
         <UserDetailsSkeleton />

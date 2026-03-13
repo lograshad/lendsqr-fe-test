@@ -32,6 +32,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-//TODO: implement logout
-// need a rest btn for the first filter

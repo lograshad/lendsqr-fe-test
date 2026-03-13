@@ -13,16 +13,19 @@ import styles from "./Header.module.scss";
 
 interface HeaderProps {
   onToggleSidebar: () => void;
+  isSidebarOpen: boolean;
 }
 
-export function Header({ onToggleSidebar }: HeaderProps) {
+export function Header({ onToggleSidebar, isSidebarOpen }: HeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
         <button
           className={styles.hamburger}
           onClick={onToggleSidebar}
-          aria-label="Toggle navigation menu"
+          aria-label={isSidebarOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isSidebarOpen}
+          aria-controls="main-sidebar"
         >
           <HamburgerIcon size={24} />
         </button>

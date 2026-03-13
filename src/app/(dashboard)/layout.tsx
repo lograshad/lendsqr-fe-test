@@ -32,9 +32,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className={styles.dashboardLayout}>
-      <Header onToggleSidebar={toggleSidebar} />
+      <a href="#main-content" className={styles.skipLink}>
+        Skip to main content
+      </a>
+      <Header onToggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-      <main className={styles.content}>{children}</main>
+      <main
+        id="main-content"
+        className={styles.content}
+        tabIndex={-1}
+        aria-label="Dashboard content"
+      >
+        {children}
+      </main>
     </div>
   );
 }

@@ -79,7 +79,7 @@ export async function saveUserOverrides(id: string, overrides: UserOverrides): P
       await db.userOverrides.put(record);
       return;
     } catch {
-      // fallback to localStorage TODO: add error logging or leave as is?
+      // fallback to localStorage
     }
   }
   localStorageSet(id, overrides);

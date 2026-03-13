@@ -48,8 +48,5 @@ export const sidebarGroups: SidebarGroup[] = [
   },
 ];
 
-// TODO: switch organization could toggle between organiations and maybe affect the table as a filter?
-// export as csv for the table?
-// hide scroll bar on sidebar ? or make it only show on scroll or hover
 // tanstack prefetch on haver view details with abort signals where neccessary, and skeleton loaders
 // put meridian time in date joined

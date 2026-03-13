@@ -7,6 +7,13 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   prettierConfig,
+  // This allows CommonJS requires in Jest config
+  {
+    files: ["jest.config.js"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
   // TanStack Table's useReactTable is incompatible with React Compiler memoization; I'm allowing it in Table only.
   {
     files: ["src/components/ui/Table/Table.tsx"],

@@ -6,6 +6,27 @@
   background: $color-background-light;
 }
 
+.skipLink {
+  @include visually-hidden;
+
+  &:focus-visible {
+    position: absolute;
+    top: $spacing-sm;
+    left: $spacing-sm;
+    z-index: $z-index-fixed;
+    padding: $spacing-xs $spacing-sm;
+    background: $color-background;
+    color: $color-text-primary;
+    border-radius: $radius-sm;
+    box-shadow: $shadow-sm;
+    clip: auto;
+    width: auto;
+    height: auto;
+    margin: 0;
+    white-space: nowrap;
+  }
+}
+
 .content {
   padding-top: $topbar-height;
   min-height: 100vh;

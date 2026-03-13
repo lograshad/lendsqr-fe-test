@@ -10,6 +10,7 @@ import {
   ChevronDownIcon,
   CloseIcon,
 } from "@/components/icons";
+import { useAuth } from "@/context/AuthContext";
 import { sidebarGroups } from "./sidebarData";
 import styles from "./Sidebar.module.scss";
 
@@ -20,12 +21,17 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <>
       {isOpen && <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />}
 
-      <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
+      <aside
+        id="main-sidebar"
+        className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}
+        aria-label="Primary"
+      >
         <button className={styles.closeBtn} onClick={onClose} aria-label="Close navigation">
           <CloseIcon size={24} />
         </button>
@@ -37,7 +43,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             <ChevronDownIcon size={10} />
           </div>
 
-          <Link href="/" className={`${styles.navItem} ${pathname === "/" ? styles.active : ""}`}>
+          <Link
+            href="/"
+            className={`${styles.navItem} ${pathname === "/" ? styles.active : ""}`}
+            aria-current={pathname === "/" ? "page" : undefined}
+          >
             <DashboardIcon size={16} />
             <span>Dashboard</span>
           </Link>
@@ -53,6 +63,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     key={item.href}
                     href={item.href}
                     className={`${styles.navItem} ${isActive ? styles.active : ""}`}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     {IconComponent && <IconComponent size={16} />}
                     <span>{item.label}</span>
@@ -64,7 +75,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           <div className={styles.divider} />
 
-          <button className={styles.navItem}>
+          <button className={styles.navItem} onClick={logout}>
             <LogoutIcon size={16} />
             <span>Logout</span>
           </button>

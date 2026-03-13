@@ -4,7 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { getUsers, getOrganizations, updateUserStatus } from "@/lib/api/users";
+import { getUsers, getOrganizations, updateUserStatus, getUserById } from "@/lib/api/users";
 import { QUERY_KEYS } from "@/lib/query-keys";
 import type { AppUser } from "@/types/user";
 import { Table } from "@/components/ui/Table";
@@ -15,10 +15,10 @@ import {
   EyeIcon,
   BlacklistIcon,
   ActivateIcon,
-  UserFriendsIcon,
-  UsersIcon,
-  LoanRequestIcon,
-  CoinsIcon,
+  UserFriendsOutlineIcon,
+  UsersOutlineIcon,
+  LoanRequestOutlineIcon,
+  CoinsOutlineIcon,
 } from "@/components/icons";
 import type { ColumnDef } from "@tanstack/react-table";
 import { UsersTableSkeleton } from "./UsersTableSkeleton";
@@ -82,9 +82,10 @@ function StatusBadge({ status }: { status: AppUser["status"] }) {
         : status === "pending"
           ? styles.statusPending
           : styles.statusBlacklisted;
+  const label = status.charAt(0).toUpperCase() + status.slice(1);
   return (
-    <span className={`${styles.statusBadge} ${statusClass}`}>
-      {status.charAt(0).toUpperCase() + status.slice(1)}
+    <span className={`${styles.statusBadge} ${statusClass}`} aria-label={`User status: ${label}`}>
+      {label}
     </span>
   );
 }
@@ -104,6 +105,13 @@ function ActionMenu({ userId, status }: { userId: string; status: AppUser["statu
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handlePrefetchDetails = () => {
+    queryClient.prefetchQuery({
+      queryKey: [QUERY_KEYS.users, "detail", userId],
+      queryFn: ({ signal }) => getUserById(userId, { signal }),
+    });
+  };
 
   const handleBlacklist = () => {
     setOpen(false);
@@ -128,29 +136,45 @@ function ActionMenu({ userId, status }: { userId: string; status: AppUser["statu
   };
 
   return (
-    <div className={styles.actionMenuWrapper} ref={ref}>
+    <div
+      className={styles.actionMenuWrapper}
+      ref={ref}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          setOpen(false);
+        }
+      }}
+    >
       <button
         type="button"
         className={styles.actionMenuBtn}
         onClick={() => setOpen((o) => !o)}
         aria-label="More actions"
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         <MoreIcon size={18} />
       </button>
       {open && (
-        <div className={styles.actionPopover}>
-          <button type="button" onClick={() => router.push(`/users/${userId}`)}>
+        <div className={styles.actionPopover} role="menu">
+          <button
+            type="button"
+            onClick={() => router.push(`/users/${userId}`)}
+            onMouseEnter={handlePrefetchDetails}
+            onFocus={handlePrefetchDetails}
+            role="menuitem"
+          >
             <EyeIcon />
             View Details
           </button>
           {status !== "blacklisted" && (
-            <button type="button" onClick={handleBlacklist}>
+            <button type="button" onClick={handleBlacklist} role="menuitem">
               <BlacklistIcon />
               Blacklist User
             </button>
           )}
           {status !== "active" && (
-            <button type="button" onClick={handleActivate}>
+            <button type="button" onClick={handleActivate} role="menuitem">
               <ActivateIcon />
               Activate User
             </button>
@@ -335,6 +359,12 @@ export default function UsersPage() {
     setPage(1);
   };
 
+  const handleSearchReset = () => {
+    if (typeof window !== "undefined") {
+      window.location.reload();
+    }
+  };
+
   const handleFilterToggle = (columnId: string) => {
     setOpenFilterCol((prev) => (prev === columnId ? null : columnId));
   };
@@ -397,23 +427,24 @@ export default function UsersPage() {
   const end = Math.min(page * limit, total);
 
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>Users</h1>
+    <div className={styles.page} aria-labelledby="users-page-title">
+      <h1 id="users-page-title" className={styles.title}>
+        Users
+      </h1>
       {isLoading || !activeUsersData ? (
         <StatCardsSkeleton />
       ) : (
-        // TODO: update this icons to the right ones
         <div className={styles.statCards}>
           <div className={styles.statCard}>
             <span className={`${styles.statIcon} ${styles.statIconPink}`}>
-              <UserFriendsIcon size={22} />
+              <UserFriendsOutlineIcon size={22} />
             </span>
             <span className={styles.statLabel}>USERS</span>
             <span className={styles.statValue}>{total.toLocaleString()}</span>
           </div>
           <div className={styles.statCard}>
             <span className={`${styles.statIcon} ${styles.statIconPurple}`}>
-              <UsersIcon size={22} />
+              <UsersOutlineIcon size={22} />
             </span>
             <span className={styles.statLabel}>ACTIVE USERS</span>
             <span className={styles.statValue}>
@@ -422,14 +453,14 @@ export default function UsersPage() {
           </div>
           <div className={styles.statCard}>
             <span className={`${styles.statIcon} ${styles.statIconOrange}`}>
-              <LoanRequestIcon size={22} />
+              <LoanRequestOutlineIcon size={22} />
             </span>
             <span className={styles.statLabel}>USERS WITH LOANS</span>
             <span className={styles.statValue}>12,453</span>
           </div>
           <div className={styles.statCard}>
             <span className={`${styles.statIcon} ${styles.statIconRed}`}>
-              <CoinsIcon size={22} />
+              <CoinsOutlineIcon size={22} />
             </span>
             <span className={styles.statLabel}>USERS WITH SAVINGS</span>
             <span className={styles.statValue}>102,453</span>
@@ -447,6 +478,9 @@ export default function UsersPage() {
           />
           <Button type="submit" variant="secondary" size="md">
             Search
+          </Button>
+          <Button type="button" variant="outline" size="md" onClick={handleSearchReset}>
+            Reset
           </Button>
         </form>
         <div className={styles.sortRow}>
@@ -529,6 +563,7 @@ export default function UsersPage() {
               hidePagination
               onFilter={handleFilterToggle}
               className={styles.table}
+              data-cy="users-table"
             />
             <ColumnFilterDropdown
               key={openFilterCol !== null ? "open" : "closed"}

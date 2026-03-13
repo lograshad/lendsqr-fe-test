@@ -65,6 +65,7 @@ export function Table<T>({
                   <th
                     key={header.id}
                     data-column-id={header.column.id}
+                    scope="col"
                     style={
                       header.column.getSize() !== 150
                         ? { width: header.column.getSize() }
@@ -100,7 +101,7 @@ export function Table<T>({
             </tr>
           ) : (
             table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} data-cy="users-row">
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} data-column-id={cell.column.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -167,5 +168,3 @@ export function Table<T>({
     </div>
   );
 }
-
-//TODO: if server pagination, connect to tanstack?

@@ -20,8 +20,11 @@ export interface GetUsersResponse {
   total: number;
 }
 
-export async function getUserById(id: string): Promise<AppUser> {
-  const res = await fetch(`/api/users/${id}`);
+export async function getUserById(
+  id: string,
+  options?: { signal?: AbortSignal }
+): Promise<AppUser> {
+  const res = await fetch(`/api/users/${id}`, { signal: options?.signal });
   if (!res.ok) {
     throw new Error(res.status === 404 ? "User not found" : "Failed to load user");
   }
