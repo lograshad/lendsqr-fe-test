@@ -19,16 +19,54 @@ export async function GET(request: NextRequest) {
     const search = (searchParams.get("search") ?? "").trim().toLowerCase();
     const sortKey = searchParams.get("sort") ?? "createdAt";
     const order = searchParams.get("order") === "asc" ? "asc" : "desc";
+    const organization = (searchParams.get("organization") ?? "").trim();
+    const fullName = (searchParams.get("fullName") ?? "").trim().toLowerCase();
+    const email = (searchParams.get("email") ?? "").trim().toLowerCase();
+    const phoneNumber = (searchParams.get("phoneNumber") ?? "").trim();
+    const status = (searchParams.get("status") ?? "").trim();
+    const dateFrom = (searchParams.get("dateFrom") ?? "").trim();
+    const dateTo = (searchParams.get("dateTo") ?? "").trim();
 
     let filtered = users;
     if (search) {
-      filtered = users.filter(
+      filtered = filtered.filter(
         (u) =>
           u.fullName.toLowerCase().includes(search) ||
           u.email.toLowerCase().includes(search) ||
           u.phoneNumber.includes(search) ||
           (u.organization && u.organization.toLowerCase().includes(search))
       );
+    }
+    if (organization) {
+      filtered = filtered.filter(
+        (u) => u.organization && u.organization.toLowerCase().includes(organization.toLowerCase())
+      );
+    }
+    if (fullName) {
+      filtered = filtered.filter((u) => u.fullName.toLowerCase().includes(fullName));
+    }
+    if (email) {
+      filtered = filtered.filter((u) => u.email.toLowerCase().includes(email));
+    }
+    if (phoneNumber) {
+      filtered = filtered.filter((u) => u.phoneNumber.includes(phoneNumber));
+    }
+    if (status) {
+      filtered = filtered.filter((u) => u.status === status);
+    }
+    if (dateFrom) {
+      const from = Date.parse(dateFrom);
+      if (!Number.isNaN(from)) {
+        filtered = filtered.filter((u) => new Date(u.createdAt).getTime() >= from);
+      }
+    }
+    if (dateTo) {
+      const to = Date.parse(dateTo);
+      if (!Number.isNaN(to)) {
+        const toEndOfDay = new Date(to);
+        toEndOfDay.setHours(23, 59, 59, 999);
+        filtered = filtered.filter((u) => new Date(u.createdAt).getTime() <= toEndOfDay.getTime());
+      }
     }
 
     const total = filtered.length;

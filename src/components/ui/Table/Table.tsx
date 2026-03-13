@@ -58,29 +58,36 @@ export function Table<T>({
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  style={
-                    header.column.getSize() !== 150 ? { width: header.column.getSize() } : undefined
-                  }
-                >
-                  <span className={styles.thContent}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                    {onFilter && (
-                      <button
-                        className={styles.filterBtn}
-                        onClick={() => onFilter(header.column.id)}
-                        aria-label={`Filter by ${header.column.id}`}
-                      >
-                        <FilterIcon size={16} />
-                      </button>
-                    )}
-                  </span>
-                </th>
-              ))}
+              {headerGroup.headers.map((header, index) => {
+                const isLastColumn = index === headerGroup.headers.length - 1;
+                const showFilter = onFilter && !isLastColumn;
+                return (
+                  <th
+                    key={header.id}
+                    data-column-id={header.column.id}
+                    style={
+                      header.column.getSize() !== 150
+                        ? { width: header.column.getSize() }
+                        : undefined
+                    }
+                  >
+                    <span className={styles.thContent}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                      {showFilter && (
+                        <button
+                          className={styles.filterBtn}
+                          onClick={() => onFilter(header.column.id)}
+                          aria-label={`Filter by ${header.column.id}`}
+                        >
+                          <FilterIcon size={16} />
+                        </button>
+                      )}
+                    </span>
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
@@ -95,7 +102,9 @@ export function Table<T>({
             table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                  <td key={cell.id} data-column-id={cell.column.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
                 ))}
               </tr>
             ))

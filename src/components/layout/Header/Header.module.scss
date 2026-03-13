@@ -21,6 +21,9 @@
   align-items: center;
   gap: $spacing-md;
   flex-shrink: 0;
+  @include respond-to(lg) {
+    margin-right: $spacing-9xl;
+  }
 }
 
 .hamburger {

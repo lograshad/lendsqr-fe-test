@@ -54,10 +54,9 @@ export default function LoginPage() {
   return (
     <main className={styles.page}>
       <div className={styles.leftPanel}>
-        <Link href="/" className={styles.logo}>
-          <LogoIcon size={25} />
-          <span className={styles.logoText}>lendsqr</span>
-        </Link>
+        <div className={styles.logo}>
+          <LogoIcon size={173.76} />
+        </div>
         <div className={styles.illustrationWrapper}>
           <Image
             src="/login-illustration.svg"
@@ -120,3 +119,4 @@ export default function LoginPage() {
 // TODO: 404 PAGE?
 // update svg illustration
 // confirm accuracy of icons again
+// redirect if logged in and user tries to access login page

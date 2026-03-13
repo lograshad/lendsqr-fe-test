@@ -8,11 +8,12 @@
 }
 
 .leftPanel {
+  position: relative;
   flex: 1;
   display: none;
   flex-direction: column;
   padding: $spacing-2xl $spacing-3xl;
-  background: $color-background;
+  background: #fdfdfd;
 
   @include respond-to(lg) {
     display: flex;
@@ -20,12 +21,14 @@
 }
 
 .logo {
+  position: absolute;
+  top: $spacing-2xl;
+  left: $spacing-5xl;
   display: flex;
   align-items: center;
   gap: $spacing-xs;
   text-decoration: none;
   color: $color-primary-dark;
-  margin-bottom: $spacing-2xl;
 }
 
 .logoText {
@@ -56,6 +59,7 @@
   justify-content: center;
   padding: $spacing-2xl $spacing-lg;
   background: $color-background;
+  box-shadow: 0px 15px 90px 0px rgba(0, 0, 0, 0.03);
 
   @include respond-to(md) {
     padding: $spacing-2xl $spacing-3xl;
@@ -71,6 +75,7 @@
   font-family: $font-secondary;
   font-size: $font-size-4xl;
   font-weight: $font-weight-bold;
+  // TODO: downloaded font isn't allowing 700
   color: $color-primary-dark;
   margin-bottom: $spacing-sm;
   line-height: $line-height-tight;
@@ -97,7 +102,7 @@
   right: $spacing-md;
   top: 50%;
   transform: translateY(-50%);
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
   color: $color-primary;
   letter-spacing: 0.1em;

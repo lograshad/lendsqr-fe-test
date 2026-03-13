@@ -1,0 +1,36 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.statCards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  background: $color-background;
+  border: 1px solid rgba($color-primary-dark, 0.06);
+  border-radius: $radius-sm;
+  padding: $spacing-lg $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+.icon {
+  margin-bottom: $spacing-xs;
+}
+
+.label {
+  margin-bottom: $spacing-xs;
+}

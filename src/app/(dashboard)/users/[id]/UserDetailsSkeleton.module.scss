@@ -1,0 +1,114 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  width: 100%;
+}
+
+.backLink {
+  margin-bottom: $spacing-lg;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xl;
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.profileCard {
+  background: white;
+  border: 1px solid rgba($color-primary-dark, 0.06);
+  border-radius: $radius-sm;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+.profileTop {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2xl;
+  padding: $spacing-xl;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.profileName {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.profileTier,
+.profileBalance {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.tabs {
+  display: flex;
+  gap: $spacing-md;
+  padding: 0 $spacing-xl;
+  border-top: 1px solid rgba($color-primary-dark, 0.06);
+}
+
+.detailsCard {
+  background: white;
+  border: 1px solid rgba($color-primary-dark, 0.06);
+  border-radius: $radius-sm;
+  padding: $spacing-xl;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.sectionTitle {
+  margin-bottom: $spacing-md;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-xl;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}

@@ -52,24 +52,35 @@
       color: $color-text-secondary;
     }
   }
+
+  @include respond-to(lg) {
+    th[data-column-id="email"],
+    td[data-column-id="email"] {
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .thContent {
   display: inline-flex;
   align-items: center;
   gap: $spacing-sm;
+  min-width: 0;
+}
+
+.thContent > *:first-child {
+  min-width: 0;
 }
 
 .filterBtn {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.6;
   transition: opacity $transition-fast;
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .emptyRow {

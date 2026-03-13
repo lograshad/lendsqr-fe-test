@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { Avatar } from "@/components/ui/Avatar";
-import { SearchIcon, BellIcon, HamburgerIcon, LogoIcon, ChevronDownIcon } from "@/components/icons";
+import {
+  SearchIcon,
+  BellIcon,
+  HamburgerIcon,
+  LogoIcon,
+  ChevronDownSolidIcon,
+} from "@/components/icons";
 import styles from "./Header.module.scss";
 
 interface HeaderProps {
@@ -21,8 +27,7 @@ export function Header({ onToggleSidebar }: HeaderProps) {
           <HamburgerIcon size={24} />
         </button>
         <Link href="/" className={styles.logo}>
-          <LogoIcon size={25} />
-          <span className={styles.logoText}>lendsqr</span>
+          <LogoIcon size={144.8} />
         </Link>
       </div>
 
@@ -48,7 +53,7 @@ export function Header({ onToggleSidebar }: HeaderProps) {
         <div className={styles.userMenu}>
           <Avatar size="md" fallback="A" alt="Adedeji" />
           <span className={styles.userName}>Adedeji</span>
-          <ChevronDownIcon size={10} />
+          <ChevronDownSolidIcon size={7.34} />
         </div>
       </div>
     </header>

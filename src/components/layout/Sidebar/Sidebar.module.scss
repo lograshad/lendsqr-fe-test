@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
@@ -14,9 +15,9 @@
 
 .sidebar {
   position: fixed;
-  top: $topbar-height;
+  top: 0;
   left: 0;
-  bottom: 0;
+  height: 100vh;
   width: $sidebar-width;
   background: $color-background;
   border-right: 1px solid $color-border-light;
@@ -27,7 +28,34 @@
 
   @include custom-scrollbar(6px);
 
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    transition: background $transition-fast;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: $radius-full;
+    transition: background $transition-fast;
+  }
+
+  &:hover::-webkit-scrollbar-track {
+    background: $color-background-light;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background: $color-text-light;
+
+    &:hover {
+      background: color.adjust($color-text-light, $lightness: -10%);
+    }
+  }
+
   @include respond-to(lg) {
+    top: $topbar-height;
+    height: auto;
+    bottom: 0;
+    box-shadow: 4px 0 15px 6px $color-shadow;
     transform: translateX(0);
     z-index: 1;
   }
@@ -45,6 +73,7 @@
   top: $spacing-md;
   right: $spacing-md;
   color: $color-text-secondary;
+  cursor: pointer;
 
   @include respond-to(lg) {
     display: none;
@@ -54,7 +83,7 @@
 .nav {
   display: flex;
   flex-direction: column;
-  padding: $spacing-lg 0 $spacing-xl;
+  padding: $spacing-2xl 0 $spacing-xl;
 }
 
 .orgSwitcher {

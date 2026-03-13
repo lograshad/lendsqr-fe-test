@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
+import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import "@/styles/globals.scss";
@@ -21,10 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={workSans.variable}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={workSans.variable} suppressHydrationWarning>
         <QueryProvider>
           <AuthProvider>{children}</AuthProvider>
+          <Toaster />
         </QueryProvider>
       </body>
     </html>
@@ -32,3 +34,4 @@ export default function RootLayout({
 }
 
 //TODO: implement logout
+// need a rest btn for the first filter

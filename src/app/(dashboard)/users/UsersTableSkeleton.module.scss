@@ -1,0 +1,52 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  width: 100%;
+}
+
+.statCards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.tableSkeleton {
+  background: white;
+  border: 1px solid rgba($color-primary-dark, 0.06);
+  border-radius: $radius-sm;
+  padding: $spacing-lg;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid rgba($color-primary-dark, 0.06);
+  margin-bottom: $spacing-md;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+  border-bottom: 1px solid rgba($color-primary-dark, 0.06);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

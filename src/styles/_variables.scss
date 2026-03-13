@@ -19,6 +19,8 @@ $color-border: #213f7d;
 $color-border-light: rgba(33, 63, 125, 0.1);
 $color-shadow: rgba(0, 0, 0, 0.04);
 
+// Colors - Avatar
+$color-avatar-background: #dbe0ea;
 // Typography
 $font-primary:
   "Work Sans",
@@ -62,6 +64,12 @@ $spacing-lg: 1.5rem; // 24px
 $spacing-xl: 2rem; // 32px
 $spacing-2xl: 3rem; // 48px
 $spacing-3xl: 4rem; // 64px
+$spacing-4xl: 5rem; // 80px
+$spacing-5xl: 6rem; // 96px
+$spacing-6xl: 7rem; // 112px
+$spacing-7xl: 8rem; // 128px
+$spacing-8xl: 9rem; // 144px
+$spacing-9xl: 10rem; // 160px
 
 // Breakpoints
 $breakpoint-xs: 320px;

@@ -7,6 +7,11 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   prettierConfig,
+  // TanStack Table's useReactTable is incompatible with React Compiler memoization; I'm allowing it in Table only.
+  {
+    files: ["src/components/ui/Table/Table.tsx"],
+    rules: { "react-hooks/incompatible-library": "off" },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

@@ -10,14 +10,80 @@
 }
 
 .title {
-  @include font-heading($font-size-2xl);
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-medium;
   color: $color-text-primary;
 }
 
-.subtitle {
-  margin-top: $spacing-sm;
-  margin-bottom: $spacing-lg;
+.statCards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+  margin-top: $spacing-xl;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  background: $color-background;
+  border: 1px solid rgba($color-primary-dark, 0.06);
+  border-radius: $radius-sm;
+  padding: $spacing-lg $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+.statIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $spacing-xs;
+}
+
+.statIconPink {
+  background: rgba(223, 24, 255, 0.1);
+  color: #df18ff;
+}
+
+.statIconPurple {
+  background: rgba(87, 24, 255, 0.1);
+  color: #5718ff;
+}
+
+.statIconOrange {
+  background: rgba(245, 95, 68, 0.1);
+  color: #f55f44;
+}
+
+.statIconRed {
+  background: rgba(255, 51, 102, 0.1);
+  color: #ff3366;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  font-weight: $font-weight-medium;
   color: $color-text-secondary;
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  line-height: 1;
 }
 
 .toolbar {
@@ -73,7 +139,58 @@
   cursor: pointer;
 }
 
-.table {
+.activeFilters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  background: $color-background-light;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-sm;
+}
+
+.filterChipText {
+  min-width: 0;
+}
+
+.filterChipCancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  margin-left: 2px;
+  width: 20px;
+  height: 20px;
+  font-size: 1.125rem;
+  line-height: 1;
+  color: $color-text-secondary;
+  background: transparent;
+  border: none;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition:
+    color $transition-fast,
+    background $transition-fast;
+
+  &:hover {
+    color: $color-text-primary;
+    background: rgba($color-primary-dark, 0.08);
+  }
+}
+
+.tableContainer {
+  position: relative;
   margin-bottom: $spacing-lg;
 }
 
@@ -205,6 +322,159 @@
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.actionMenuWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: $color-text-secondary;
+  border-radius: $radius-sm;
+  transition: background $transition-fast;
+
+  &:hover {
+    background: rgba($color-primary-dark, 0.06);
+  }
+}
+
+.actionPopover {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: $z-index-dropdown;
+  min-width: 180px;
+  padding: $spacing-sm 0;
+  background: $color-background;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-sm;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    font-family: $font-primary;
+    text-align: left;
+    transition: background $transition-fast;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba($color-primary-dark, 0.04);
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.filterDropdown {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  z-index: $z-index-dropdown;
+  width: 270px;
+  padding: $spacing-lg;
+  background: $color-background;
+  border: 1px solid $color-border-light;
+  border-radius: $radius-sm;
+  box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+.filterField {
+  margin-bottom: $spacing-md;
+
+  label {
+    display: block;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-xs;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    font-family: $font-primary;
+    color: $color-text-primary;
+    background: $color-background;
+    border: 1px solid $color-border-light;
+    border-radius: $radius-sm;
+    outline: none;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      border-color: $color-primary-dark;
+    }
+
+    &::placeholder {
+      color: $color-text-secondary;
+      opacity: 0.6;
+    }
+  }
+}
+
+.filterActions {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+}
+
+.filterResetBtn {
+  flex: 1;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  font-family: $font-primary;
+  color: $color-text-primary;
+  background: transparent;
+  border: 1px solid $color-text-primary;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background: rgba($color-primary-dark, 0.04);
+  }
+}
+
+.filterSubmitBtn {
+  flex: 1;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  font-family: $font-primary;
+  color: $color-background;
+  background: $color-primary;
+  border: 1px solid $color-primary;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    opacity: 0.9;
   }
 }
 
