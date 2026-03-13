@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFileSync } from "fs";
 import { join } from "path";
 import type { AppUser } from "@/types/user";
+import { applyStatusOverrides } from "@/lib/server/userStatusOverrides";
 
 const USERS_PATH = join(process.cwd(), "data", "users.json");
 
@@ -12,7 +13,7 @@ function loadUsers(): AppUser[] {
 
 export async function GET(request: NextRequest) {
   try {
-    const users = loadUsers();
+    const users = applyStatusOverrides(loadUsers());
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") ?? "20", 10) || 20));

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import type { AppUser } from "@/types/user";
+import { getStatusOverride, setStatusOverride } from "@/lib/server/userStatusOverrides";
 
 const USERS_PATH = join(process.cwd(), "data", "users.json");
 const VALID_STATUSES = ["active", "inactive", "pending", "blacklisted"] as const;
@@ -11,11 +12,18 @@ function loadUsers(): AppUser[] {
   return JSON.parse(raw) as AppUser[];
 }
 
+function getMergedUser(id: string): AppUser | null {
+  const users = loadUsers();
+  const user = users.find((u) => u.id === id) ?? null;
+  if (!user) return null;
+  const override = getStatusOverride(id);
+  return override !== undefined ? { ...user, status: override } : user;
+}
+
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const users = loadUsers();
-    const user = users.find((u) => u.id === id);
+    const user = getMergedUser(id);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
@@ -42,9 +50,14 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     if (index === -1) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    users[index] = { ...users[index], status: status as AppUser["status"] };
-    writeFileSync(USERS_PATH, JSON.stringify(users, null, 2), "utf8");
-    return NextResponse.json(users[index]);
+    const newStatus = status as AppUser["status"];
+    setStatusOverride(id, newStatus);
+    const updatedUser = { ...users[index], status: newStatus };
+    try {
+      users[index] = updatedUser;
+      writeFileSync(USERS_PATH, JSON.stringify(users, null, 2), "utf8");
+    } catch {}
+    return NextResponse.json(updatedUser);
   } catch (err) {
     console.error("PATCH /api/users/[id]", err);
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });

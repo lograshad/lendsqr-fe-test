@@ -9,14 +9,21 @@ import styles from "./layout.module.scss";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (!isLoading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [mounted, isAuthenticated, isLoading, router]);
 
   const toggleSidebar = useCallback(() => {
     setIsSidebarOpen((prev) => !prev);
@@ -26,7 +33,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     setIsSidebarOpen(false);
   }, []);
 
-  if (isLoading || !isAuthenticated) {
+  if (!mounted || isLoading || !isAuthenticated) {
     return null;
   }
 
